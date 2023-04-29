@@ -1,0 +1,31 @@
+#root {
+  max-width: 1280px;
+  padding: 2rem;
+  text-align: center;
+  width: 60%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.card {
+  padding: 2em;
+  background-color: #ccc;
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  gap: 1rem;
+  border-radius: 8px;
+}
+
+.card input {
+  font: inherit;
+  background-color: inherit;
+  color: inherit;
+}
+
+.read-the-docs {
+  color: #888;
+}
