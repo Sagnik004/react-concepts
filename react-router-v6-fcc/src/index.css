@@ -72,9 +72,10 @@ header .login-link {
   align-items: center;
 }
 
-header .app-logo {
-  font-size: 1.4rem;
-  font-weight: 700;
+header a.active {
+  font-weight: bold;
+  text-decoration: underline;
+  color: #161616;
 }
 
 nav {
@@ -419,6 +420,12 @@ i[class*='van-type-'] {
   color: #161616;
   text-decoration: underline;
   font-weight: 600;
+}
+
+.host-nav a.active {
+  font-weight: bold;
+  text-decoration: underline;
+  color: #161616;
 }
 
 .host-van-link-wrapper {
