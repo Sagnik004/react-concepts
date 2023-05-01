@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <header>
-      <Link to="/">#VANLIFE</Link>
+      <Link to="/" className="app-logo">#VANLIFE</Link>
       <nav>
+        <Link to="/host">Host</Link>
         <Link to="/about">About</Link>
         <Link to="/vans">Vans</Link>
       </nav>

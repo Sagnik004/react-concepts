@@ -72,6 +72,11 @@ header .login-link {
   align-items: center;
 }
 
+header .app-logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
 nav {
   display: flex;
 }
@@ -128,9 +133,12 @@ footer {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  min-height: 350px;
+  min-height: 80vh;
   color: white;
   padding: 45px 23px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .home-container-content {
@@ -141,11 +149,12 @@ footer {
 
 .home-container h1 {
   font-weight: 700;
-  font-size: 2.25rem;
-  line-height: 42px;
+  font-size: 4rem;
+  /* line-height: 42px; */
 }
 
 .home-container p {
+  font-size: 1.2rem;
   line-height: 24px;
 }
 
@@ -157,9 +166,11 @@ footer {
   border: none;
   width: 100%;
   margin-top: 27px;
-  padding-block: 0.75rem;
+  padding-block: 1rem;
   color: white;
+  font-size: 1.2rem;
   font-weight: 700;
+  text-transform: uppercase;
   border-radius: 5px;
   cursor: pointer;
   transition: transform 0.1s ease-in-out;
