@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 
 const VanDetail = () => {
   const { id } = useParams();
+  const location = useLocation();
+
   const [van, setVan] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -40,8 +42,18 @@ const VanDetail = () => {
     );
   }
 
+  const prevPageSearchFilters = location.state?.searchFilter || '';
+  const backLinkText = location.state?.vanTypeFiltered?.trim() || 'all';
+
   return (
     <div className="van-detail-container">
+      <Link
+        to={`..${prevPageSearchFilters}`}
+        relative="path"
+        className="back-button"
+      >
+        &larr; <span>Back to {backLinkText} vans</span>
+      </Link>
       <div className="van-detail">
         <img src={van.imageUrl} />
         <i className={`van-type ${van.type} selected`}>{van.type}</i>

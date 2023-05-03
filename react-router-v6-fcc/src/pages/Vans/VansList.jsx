@@ -35,7 +35,16 @@ const VansList = () => {
   const vanElements = displayedVans.map((van) => {
     return (
       <div key={van.id} className="van-tile">
-        <Link to={`${van.id}`}>
+        {/* Passing the state below will help to grab it in next page, 
+            if we are to return back from next page to this one we can help
+            to retain any filters set in this page */}
+        <Link
+          to={`${van.id}`}
+          state={{
+            searchFilter: `?${searchParams.toString()}`,
+            vanTypeFiltered: typeFilter,
+          }}
+        >
           <img src={van.imageUrl} alt={van.name} />
           <div className="van-details">
             <div className="van-info">
