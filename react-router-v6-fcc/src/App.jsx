@@ -1,4 +1,9 @@
-import { Routes, Route } from 'react-router-dom';
+import {
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+} from 'react-router-dom';
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -16,34 +21,35 @@ import PageNotFound from './pages/404';
 import Layout from './components/Layout';
 import HostLayout from './components/HostLayout';
 
-const App = () => {
-  return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="vans" element={<VansList />} />
-        <Route path="vans/:id" element={<VanDetail />} />
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route element={<Layout />}>
+      <Route path="/" element={<Home />} />
+      <Route path="about" element={<About />} />
+      <Route path="vans" element={<VansList />} />
+      <Route path="vans/:id" element={<VanDetail />} />
 
-        <Route path="host" element={<HostLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="income" element={<Income />} />
-          <Route path="vans" element={<HostVans />} />
+      <Route path="host" element={<HostLayout />}>
+        <Route index element={<Dashboard />} />
+        <Route path="income" element={<Income />} />
+        <Route path="vans" element={<HostVans />} />
 
-          <Route path="vans/:id" element={<HostVanDetails />}>
-            <Route index element={<HostVanInfo />} />
-            <Route path="pricing" element={<HostVanPricing />} />
-            <Route path="photos" element={<HostVanPhotos />} />
-          </Route>
-          <Route path="reviews" element={<Reviews />} />
+        <Route path="vans/:id" element={<HostVanDetails />}>
+          <Route index element={<HostVanInfo />} />
+          <Route path="pricing" element={<HostVanPricing />} />
+          <Route path="photos" element={<HostVanPhotos />} />
         </Route>
-
-        {/* 404 page */}
-        <Route path='*' element={<PageNotFound />} />
-
+        <Route path="reviews" element={<Reviews />} />
       </Route>
-    </Routes>
-  );
+
+      {/* 404 page */}
+      <Route path="*" element={<PageNotFound />} />
+    </Route>
+  )
+);
+
+const App = () => {
+  return <RouterProvider router={router} />;
 };
 
 export default App;
