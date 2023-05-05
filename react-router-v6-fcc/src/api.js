@@ -1,13 +1,18 @@
+import axios from 'axios';
+
 export async function getAllVans() {
-  const res = await fetch('/api/vans');
-  if (!res.ok) {
+  try {
+    const { data } = await axios.get('/api/vans');
+    return {
+      isSuccess: true,
+      vans: data.vans,
+    };
+  } catch (error) {
     throw new Error({
       message: 'Failed to fetch vans!',
       status: res.status,
       statusText: res.statusText,
+      isSuccess: false,
     });
   }
-
-  const data = await res.json();
-  return data.vans;
 }
