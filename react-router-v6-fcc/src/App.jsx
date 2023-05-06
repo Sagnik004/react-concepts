@@ -7,13 +7,15 @@ import {
 
 import Home from './pages/Home';
 import About from './pages/About';
-import VansList, { loader as vansListPageLoader } from './pages/Vans/VansList';
-import VanDetail from './pages/Vans/VanDetail';
+import VansList, { loader as vansListLoader } from './pages/Vans/VansList';
+import VanDetail, { loader as vanDetailLoader } from './pages/Vans/VanDetail';
 import Dashboard from './pages/Host/Dashboard';
 import Income from './pages/Host/Income';
 import Reviews from './pages/Host/Reviews';
-import HostVans from './pages/Host/HostVans';
-import HostVanDetails from './pages/Host/HostVanDetails';
+import HostVans, { loader as hostVansLoader } from './pages/Host/HostVans';
+import HostVanDetails, {
+  loader as hostVanDetailsLoader,
+} from './pages/Host/HostVanDetails';
 import HostVanInfo from './pages/Host/HostVanInfo';
 import HostVanPricing from './pages/Host/HostVanPricing';
 import HostVanPhotos from './pages/Host/HostVanPhotos';
@@ -32,10 +34,15 @@ const router = createBrowserRouter(
       <Route
         path="vans"
         element={<VansList />}
-        loader={vansListPageLoader}
+        loader={vansListLoader}
         errorElement={<Error />}
       />
-      <Route path="vans/:id" element={<VanDetail />} />
+      <Route
+        path="vans/:id"
+        element={<VanDetail />}
+        loader={vanDetailLoader}
+        errorElement={<Error />}
+      />
 
       <Route path="host" element={<HostLayout />}>
         <Route
@@ -55,9 +62,8 @@ const router = createBrowserRouter(
         <Route
           path="vans"
           element={<HostVans />}
-          loader={async () => {
-            return null;
-          }}
+          loader={hostVansLoader}
+          errorElement={<Error />}
         />
         <Route
           path="reviews"
@@ -70,9 +76,8 @@ const router = createBrowserRouter(
         <Route
           path="vans/:id"
           element={<HostVanDetails />}
-          loader={async () => {
-            return null;
-          }}
+          loader={hostVanDetailsLoader}
+          errorElement={<Error />}
         >
           <Route
             index

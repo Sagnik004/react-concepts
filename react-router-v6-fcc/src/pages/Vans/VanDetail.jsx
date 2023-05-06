@@ -1,46 +1,17 @@
-import { useState, useEffect } from 'react';
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { Link, useLocation, useLoaderData } from 'react-router-dom';
+
+import { getVan } from '../../api';
+
+export function loader({ params, request }) {
+  const url = new URL(request.url);
+  const searchTerm = url.searchParams.get("type");
+  console.log(searchTerm);
+  return getVan(params.id);
+}
 
 const VanDetail = () => {
-  const { id } = useParams();
   const location = useLocation();
-
-  const [van, setVan] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-
-  useEffect(() => {
-    const getVanDetails = async () => {
-      try {
-        const res = await fetch(`/api/vans/${id}`);
-        const data = await res.json();
-        setVan(data.vans);
-      } catch (error) {
-        console.log(error);
-        setIsError(true);
-      }
-
-      setIsLoading(false);
-    };
-    getVanDetails();
-  }, [id]);
-
-  if (isLoading) {
-    return (
-      <div className="van-detail">
-        <h2>Loading van details...</h2>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <h2>
-        Something went wrong!
-        <Link to="/">Go Home</Link>
-      </h2>
-    );
-  }
+  const { van } = useLoaderData();
 
   const prevPageSearchFilters = location.state?.searchFilter || '';
   const backLinkText = location.state?.vanTypeFiltered?.trim() || 'all';

@@ -1,28 +1,25 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
+
+import { getHostsAllVans } from '../../api';
+
+export function loader() {
+  return getHostsAllVans();
+}
 
 const HostVans = () => {
-  const [vans, setVans] = useState([]);
+  const { vans } = useLoaderData();
 
-  useEffect(() => {
-    const getHostVans = async () => {
-      try {
-        const res = await fetch('/api/host/vans');
-        const data = await res.json();
-        setVans(data.vans);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getHostVans();
-  }, []);
+  if (vans.length < 1) {
+    return (
+      <section>
+        <h1 className="host-vans-title">No vans found! Maybe add some?</h1>
+      </section>
+    );
+  }
 
   const hostVansElements = vans.map((van) => (
-    <Link
-      to={`${van.id}`}
-      key={van.id}
-      className="host-van-link-wrapper"
-    >
+    <Link to={`${van.id}`} key={van.id} className="host-van-link-wrapper">
       <div className="host-van-single" key={van.id}>
         <img src={van.imageUrl} alt={`Photo of ${van.name}`} />
         <div className="host-van-info">
@@ -37,11 +34,7 @@ const HostVans = () => {
     <section>
       <h1 className="host-vans-title">Your listed vans</h1>
       <div className="host-vans-list">
-        {vans.length > 0 ? (
-          <section>{hostVansElements}</section>
-        ) : (
-          <h2>Loading...</h2>
-        )}
+        <section>{hostVansElements}</section>
       </div>
     </section>
   );
