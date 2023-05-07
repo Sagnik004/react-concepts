@@ -2,10 +2,7 @@ import { Link, useLocation, useLoaderData } from 'react-router-dom';
 
 import { getVan } from '../../api';
 
-export function loader({ params, request }) {
-  const url = new URL(request.url);
-  const searchTerm = url.searchParams.get("type");
-  console.log(searchTerm);
+export function loader({ params }) {
   return getVan(params.id);
 }
 
