@@ -1,11 +1,19 @@
 import { useState } from 'react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate, Form } from 'react-router-dom';
 
 import { loginUser } from '../api';
 
 export function loader({ request }) {
   const url = new URL(request.url);
   return url.searchParams.get('message');
+}
+
+export async function action({ request }) {
+  const formData = await request.formData();
+  const email = formData.get('email');
+  const password = formData.get('password');
+  console.log(email, password);
+  return null;
 }
 
 const Login = () => {
@@ -41,7 +49,7 @@ const Login = () => {
       <h1>Sign in to your account</h1>
       {message && <h3 className='login-error'>{message}</h3>}
       {error && error.message && <p className='login-error'>{error.message}</p>}
-      <form onSubmit={handleSubmit} className='login-form'>
+      <Form method='post' className='login-form'>
         <input
           name='email'
           onChange={handleChange}
@@ -59,7 +67,7 @@ const Login = () => {
         <button disabled={status === 'submitting'}>
           {status === 'submitting' ? 'Logging in...' : 'Log in'}
         </button>
-      </form>
+      </Form>
     </div>
   );
 };
