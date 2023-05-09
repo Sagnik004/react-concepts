@@ -67,3 +67,16 @@ export async function getHostsVan(id) {
     });
   }
 }
+
+export async function loginUser(creds) {
+  try {
+    const res = await axios.post('/api/login', creds);
+    return res.data;
+  } catch (error) {
+    throw {
+      message: error.message,
+      statusText: error.statusText,
+      status: error.status,
+    };
+  }
+}

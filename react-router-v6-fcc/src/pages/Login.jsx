@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 
+import { loginUser } from '../api';
+
 export function loader({ request }) {
   const url = new URL(request.url);
   return url.searchParams.get('message');
@@ -8,6 +10,8 @@ export function loader({ request }) {
 
 const Login = () => {
   const message = useLoaderData();
+  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState(null);
   const [loginFormData, setLoginFormData] = useState({
     email: '',
     password: '',
@@ -15,7 +19,12 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(loginFormData);
+    setStatus('submitting');
+    setError(null);
+    loginUser(loginFormData)
+      .then((data) => console.log(data))
+      .catch((err) => setError(err))
+      .finally(() => setStatus('idle'));
   };
 
   const handleChange = (e) => {
@@ -27,25 +36,28 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className='login-container'>
       <h1>Sign in to your account</h1>
       {message && <h3 className='login-error'>{message}</h3>}
-      <form onSubmit={handleSubmit} className="login-form">
+      {error && error.message && <p className='login-error'>{error.message}</p>}
+      <form onSubmit={handleSubmit} className='login-form'>
         <input
-          name="email"
+          name='email'
           onChange={handleChange}
-          type="email"
-          placeholder="Email address"
+          type='email'
+          placeholder='Email address'
           value={loginFormData.email}
         />
         <input
-          name="password"
+          name='password'
           onChange={handleChange}
-          type="password"
-          placeholder="Password"
+          type='password'
+          placeholder='Password'
           value={loginFormData.password}
         />
-        <button>Log in</button>
+        <button disabled={status === 'submitting'}>
+          {status === 'submitting' ? 'Logging in...' : 'Log in'}
+        </button>
       </form>
     </div>
   );
