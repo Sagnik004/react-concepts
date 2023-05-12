@@ -1,5 +1,10 @@
-import { useState } from 'react';
-import { useLoaderData, useNavigate, Form, redirect } from 'react-router-dom';
+import {
+  useLoaderData,
+  useNavigation,
+  useActionData,
+  Form,
+  redirect,
+} from 'react-router-dom';
 
 import { loginUser } from '../api';
 
@@ -12,47 +17,31 @@ export async function action({ request }) {
   const formData = await request.formData();
   const email = formData.get('email');
   const password = formData.get('password');
-  
-  const data = await loginUser({ email, password });
-  window.localStorage.setItem('loggedin', true);
-  console.log("redirecting to /host");
-  return redirect('/host');
 
-  // return null;
+  try {
+    const data = await loginUser({ email, password });
+    window.localStorage.setItem('loggedin', true);
+    console.log('redirecting to /host');
+    return redirect('/host');
+  } catch (error) {
+    console.error('Error occurred during login: ', error);
+    return error.message;
+  }
 }
 
 const Login = () => {
   const message = useLoaderData();
-  const navigate = useNavigate();
-  const [status, setStatus] = useState('idle');
-  const [error, setError] = useState(null);
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setStatus('submitting');
-  //   setError(null);
-  //   loginUser(loginFormData)
-  //     .then((data) => navigate('/host', { replace: true }))
-  //     .catch((err) => setError(err))
-  //     .finally(() => setStatus('idle'));
-  // };
+  const errorMessage = useActionData();
+  const { state: status } = useNavigation();
 
   return (
-    <div className='login-container'>
+    <div className="login-container">
       <h1>Sign in to your account</h1>
-      {message && <h3 className='login-error'>{message}</h3>}
-      {error && error.message && <p className='login-error'>{error.message}</p>}
-      <Form method='post' replace className='login-form'>
-        <input
-          name='email'
-          type='email'
-          placeholder='Email address'
-        />
-        <input
-          name='password'
-          type='password'
-          placeholder='Password'
-        />
+      {message && <h3 className="login-error">{message}</h3>}
+      {errorMessage && <p className="login-error">{errorMessage}</p>}
+      <Form method="post" replace className="login-form">
+        <input name="email" type="email" placeholder="Email address" />
+        <input name="password" type="password" placeholder="Password" />
         <button disabled={status === 'submitting'}>
           {status === 'submitting' ? 'Logging in...' : 'Log in'}
         </button>
