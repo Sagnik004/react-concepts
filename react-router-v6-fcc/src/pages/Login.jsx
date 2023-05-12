@@ -18,11 +18,14 @@ export async function action({ request }) {
   const email = formData.get('email');
   const password = formData.get('password');
 
+  const pathname =
+    new URL(request.url).searchParams.get('redirectTo') || '/host';
+
   try {
     const data = await loginUser({ email, password });
     window.localStorage.setItem('loggedin', true);
     console.log('redirecting to /host');
-    return redirect('/host');
+    return redirect(pathname);
   } catch (error) {
     console.error('Error occurred during login: ', error);
     return error.message;

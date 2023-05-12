@@ -3,8 +3,8 @@ import { Link, NavLink, Outlet, useLoaderData } from 'react-router-dom';
 import { getHostsVan } from '../../api';
 import { requireAuth } from '../../utils/requireAuth';
 
-export async function loader({ params }) {
-  await requireAuth();
+export async function loader({ params, request }) {
+  await requireAuth(request);
   return getHostsVan(params.id);
 }
 
