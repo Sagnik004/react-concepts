@@ -12,7 +12,11 @@ export async function action({ request }) {
   const formData = await request.formData();
   const email = formData.get('email');
   const password = formData.get('password');
-  console.log(email, password);
+  
+  const data = await loginUser({ email, password });
+  console.log(data);
+  window.localStorage.setItem('loggedin', true);
+
   return null;
 }
 
@@ -21,28 +25,16 @@ const Login = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
-  const [loginFormData, setLoginFormData] = useState({
-    email: '',
-    password: '',
-  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setStatus('submitting');
-    setError(null);
-    loginUser(loginFormData)
-      .then((data) => navigate('/host', { replace: true }))
-      .catch((err) => setError(err))
-      .finally(() => setStatus('idle'));
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setLoginFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setStatus('submitting');
+  //   setError(null);
+  //   loginUser(loginFormData)
+  //     .then((data) => navigate('/host', { replace: true }))
+  //     .catch((err) => setError(err))
+  //     .finally(() => setStatus('idle'));
+  // };
 
   return (
     <div className='login-container'>
@@ -52,17 +44,13 @@ const Login = () => {
       <Form method='post' className='login-form'>
         <input
           name='email'
-          onChange={handleChange}
           type='email'
           placeholder='Email address'
-          value={loginFormData.email}
         />
         <input
           name='password'
-          onChange={handleChange}
           type='password'
           placeholder='Password'
-          value={loginFormData.password}
         />
         <button disabled={status === 'submitting'}>
           {status === 'submitting' ? 'Logging in...' : 'Log in'}
