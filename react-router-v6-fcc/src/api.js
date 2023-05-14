@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+async function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 export async function getAllVans() {
   try {
+    await sleep(3000);
     const { data } = await axios.get('/api/vans');
     return {
       isSuccess: true,
@@ -19,6 +26,7 @@ export async function getAllVans() {
 
 export async function getVan(id) {
   try {
+    await sleep(3000);
     const { data } = await axios.get(`/api/vans/${id}`);
     return {
       isSuccess: true,
@@ -36,6 +44,7 @@ export async function getVan(id) {
 
 export async function getHostsAllVans() {
   try {
+    await sleep(3000);
     const { data } = await axios.get('/api/host/vans');
     return {
       isSuccess: true,
@@ -53,6 +62,7 @@ export async function getHostsAllVans() {
 
 export async function getHostsVan(id) {
   try {
+    await sleep(3000);
     const { data } = await axios.get(`/api/host/vans/${id}`);
     return {
       isSuccess: true,

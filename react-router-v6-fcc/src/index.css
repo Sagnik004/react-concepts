@@ -237,7 +237,7 @@ footer {
 .van-list-container {
   padding-inline: 23px;
   max-width: 1240px;
-  margin: auto;
+  margin: 0 auto;
 }
 
 .van-list-container h1 {
